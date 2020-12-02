@@ -44,9 +44,10 @@ class PunchScraper(Spider):
         key = list(summary.keys())
         for i in key:
             summary[i] = "\n".join(summary[i])
-        with open(f'{title}.txt', 'w') as doc:
-            doc.writelines(title+'\n')
-            doc.writelines(summary[title])
+        if summary[title] != '':
+            with open(f'{title}.txt', 'w') as doc:
+                doc.writelines(title+'\n')
+                doc.writelines(summary[title])
             
 if __name__ == "__main__":
     process = CrawlerProcess()
