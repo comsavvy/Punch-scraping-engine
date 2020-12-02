@@ -1,4 +1,15 @@
-import scrapy
+import subprocess as sub, sys
+
+try:
+    import scrapy
+except ModuleNotFoundError:
+    install = sub.run([sys.executable, "-m", "pip", 'install', "scrapy"], capture_output=True)
+    if install.stderr == b'':
+        print('scrapy installed successfull')
+    else:
+        print('Check your internet!')
+        sys.exit(1)
+        
 from scrapy import Request, Selector, Spider
 from scrapy.crawler import CrawlerProcess
 from collections import defaultdict
@@ -40,4 +51,4 @@ class PunchScraper(Spider):
 if __name__ == "__main__":
     process = CrawlerProcess()
     process.crawl(PunchScraper)
-    process.start()    
+    process.start()
