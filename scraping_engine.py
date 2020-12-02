@@ -41,9 +41,9 @@ class PunchScraper(Spider):
         for pg in page_sum:
             parag = " ".join(pg.xpath('.//text()').extract())
             summary[title].append(parag)
-        key = list(summary.keys())
+        key = list(summary.keys()) # All title
         for i in key:
-            summary[i] = "\n".join(summary[i])
+            summary[i] = "\n".join(summary[i]) # Separating the paragraph with newline character
         if summary[title] != '':
             with open(f'Top 15 news.txt', 'w+') as doc:
                 doc.writelines("\n"+title+'\n')
