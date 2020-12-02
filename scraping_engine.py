@@ -14,7 +14,7 @@ from scrapy import Request, Selector, Spider
 from scrapy.crawler import CrawlerProcess
 from collections import defaultdict
 
-summary = defaultdict(list)
+summary = defaultdict(list) # To store the title and the content
 
 class PunchScraper(Spider):
     name = "Punch_scraper"
@@ -35,9 +35,9 @@ class PunchScraper(Spider):
         
             
     def parse(self, response):
-        title = response.css("h1.post_title::text").extract_first()
-        content = response.css("div.entry-content")
-        page_sum = content.xpath(".//p")
+        title = response.css("h1.post_title::text").extract_first() # Title of the  page
+        content = response.css("div.entry-content") # All the content of the punch
+        page_sum = content.xpath(".//p") # All paragraph
         for pg in page_sum:
             parag = " ".join(pg.xpath('.//text()').extract())
             summary[title].append(parag)
@@ -45,8 +45,8 @@ class PunchScraper(Spider):
         for i in key:
             summary[i] = "\n".join(summary[i])
         if summary[title] != '':
-            with open(f'{title}.txt', 'w') as doc:
-                doc.writelines(title+'\n')
+            with open(f'Top 15 news.txt', 'w+') as doc:
+                doc.writelines("\n"+title+'\n')
                 doc.writelines(summary[title])
             
 if __name__ == "__main__":
