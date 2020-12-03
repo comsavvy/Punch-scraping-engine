@@ -14,7 +14,6 @@ except ModuleNotFoundError:
         
 from scrapy import Request, Selector, Spider
 from scrapy.crawler import CrawlerProcess
-from collections import defaultdict
 from pathlib import Path
 
 
