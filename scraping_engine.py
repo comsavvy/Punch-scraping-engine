@@ -19,8 +19,8 @@ from pathlib import Path
 summary = defaultdict(list) # To store the title and the content
 def create_remove_f_news():
   """
-  This method is going to delete old news if it exists,
-  else it will create a new news.
+  This method is going to delete old NEWS if it exists,
+  else it will create a new NEWS.
   """
   path = Path('Top 15 news.txt')
   if path.exists():
@@ -31,7 +31,7 @@ def create_remove_f_news():
 
 class PunchScraper(Spider):
     name = "Punch_scraper"
-    first_news = 0 # This will let me keep track of the first news, so as to maintain the newline character.
+    first_news = 0 # This will let me keep track of the first NEWS, so as to maintain the newline character.
     
     def start_requests(self):
         urls = ["https://punchng.com/"]
@@ -49,7 +49,7 @@ class PunchScraper(Spider):
 
     def parse(self, response):
         """
-        This method is for processing the news for user digest.
+        This method is for processing the NEWS for user digest.
         """
         title = response.css("h1.post_title::text").extract_first() # Title of the  page
         content = response.css("div.entry-content") # All the content of the punch
@@ -62,6 +62,7 @@ class PunchScraper(Spider):
             summary[i] = "\n".join(summary[i])  # Separating paragraphs with newline character
         with open(f'Top 15 news.txt', 'a+') as doc:  #  Saving each news here
             title_format = f'{title}\n' if PunchScraper.first_news == 0 else "\n"+title+'\n'
+            doc.writelines(f"NEWS URL: {response.url}\n")
             doc.writelines(title_format)
             doc.writelines(summary[title])
             doc.writelines('\n')
