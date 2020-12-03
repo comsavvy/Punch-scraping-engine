@@ -4,11 +4,11 @@ import sys
 try:
     import scrapy
 except ModuleNotFoundError:
-    install = sub.run([sys.executable, "-m", "pip", 'install', "scrapy"], capture_output=True) # Process for installing scrapy library
+    install = sub.run([sys.executable, "-m", "pip", 'install', "scrapy"], stderr=sub.PIPE, stdout=sub.PIPE) # Process for installing scrapy library
     if install.returncode == 0:
         print('scrapy installed successfull')
     else:
-        print('Check your internet!')
+        print('Unsuccessful installation!,\nHint: Check your internet.')
         sys.exit(1)
         
 from scrapy import Request, Selector, Spider
