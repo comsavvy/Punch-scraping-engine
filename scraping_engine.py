@@ -1,5 +1,5 @@
 import subprocess as sub
-import sys
+import sys, time
 
 try:
     import scrapy
@@ -7,6 +7,7 @@ except ModuleNotFoundError:
     install = sub.run([sys.executable, "-m", "pip", 'install', "scrapy"], stderr=sub.PIPE, stdout=sub.PIPE) # Process for installing scrapy library
     if install.returncode == 0:
         print('scrapy installed successfull!\n')
+        time.sleep(2) #  Sleep for 2 seconds before going on with the scraping
     else:
         print('Unsuccessful installation!,\nHint: Check your internet.')
         sys.exit(1)
