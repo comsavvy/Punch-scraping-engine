@@ -2,6 +2,7 @@
 This code is for scraping the latest Punch News from <a href='http://punch.com/'>here</a>.
 <br />
 End product:
+- The URL of the News
 - Title of the news
 - News content
 
