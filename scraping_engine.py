@@ -17,7 +17,7 @@ from scrapy.crawler import CrawlerProcess
 from collections import defaultdict
 from pathlib import Path
 
-summary = defaultdict(list) # To store the title and the content
+
 def create_remove_f_news():
   """
   This method is going to delete old NEWS if it exists,
@@ -34,6 +34,9 @@ class PunchScraper(Spider):
     name = "Punch_scraper"
     first_news = 0 # This will let me keep track of the first NEWS, so as to maintain the newline character.
     
+    def __init__(self):
+      self.all_paragraph = []  #  To store each paragraph of the NEWS
+
     def start_requests(self):
         urls = ["https://punchng.com/"]
         for url in urls:
@@ -54,18 +57,25 @@ class PunchScraper(Spider):
         """
         title = response.css("h1.post_title::text").extract_first() # Title of the  page
         content = response.css("div.entry-content") # All the content of the punch
-        page_sum = content.xpath(".//p")  # All paragraphs
+        page_sum = content.xpath(".//*[@style='text-align: justify;']")  # All paragraphs with unknown format
+        if page_sum == []:
+          page_sum = content.xpath(".//p")  # All paragraphs
+        
+        # Some paragraph contains link which will make the news pretty bad
+        # So I have to take the text for the link only
+        # And then, join them with the paragraph back
         for pg in page_sum:
             parag = " ".join(pg.xpath('.//text()').extract())
-            summary[title].append(parag)
-        key = list(summary.keys()) # All title
-        for i in key:
-            summary[i] = "\n".join(summary[i])  # Separating paragraphs with newline character
+            self.all_paragraph.append(parag)
+        
+        news = "\n".join(self.all_paragraph)  # Separating paragraphs with newline character
+        self.all_paragraph = [] # Set free
         with open(f'Top 15 news.txt', 'a+') as doc:  #  Saving each news here
             title_format = f'{title}\n' if PunchScraper.first_news == 0 else "\n"+title+'\n'
-            doc.writelines(f"NEWS URL: {response.url}\n")
+            news_url = f"NEWS URL: {response.url}\n" if PunchScraper.first_news == 0 else f"\nNEWS URL: {response.url}"
+            doc.writelines(news_url)
             doc.writelines(title_format)
-            doc.writelines(summary[title])
+            doc.writelines(news)
             doc.writelines('\n')
             PunchScraper.first_news = 1
             
