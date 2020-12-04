@@ -81,5 +81,5 @@ if __name__ == '__main__':
     create_remove_f_news()
     process = CrawlerProcess()
     process.crawl(PunchScraper)
-    process.start()
-    PunchScraper.file.close()
+    process.start() # Crawling process start here
+    PunchScraper.file.close() # closing the CSV file
