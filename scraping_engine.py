@@ -1,5 +1,5 @@
 import subprocess as sub
-import sys, time
+import sys, time, csv
 
 try:
     import scrapy
@@ -18,24 +18,29 @@ from pathlib import Path
 
 
 def create_remove_f_news():
-  """
-  This method is going to delete old NEWS if it exists,
-  else it will create a new NEWS.
-  """
-  path = Path('Top 15 news.txt')
-  if path.exists():
-    path.unlink()
-  else:
-    path.touch()
+    """
+      This method is going to delete old NEWS if it exists,
+      else it will create a new NEWS.
+    """
+    path = Path('Top 15 news.txt')
+    if path.exists():
+        path.unlink()
+    else:
+        path.touch()
 
 
 class PunchScraper(Spider):
     name = "Punch_scraper"
     first_news = 0 # This will let me keep track of the first NEWS, so as to maintain the newline character.
     
+    # This are the process for saving CSV
+    file = open('Top 15 NEWS.csv', 'w+')
+    writer = csv.writer(file)
+    writer.writerow(['NEWS Title', 'URL', 'Content'])
+    
     def __init__(self):
-      self.all_paragraph = []  #  To store each paragraph of the NEWS
-
+        self.all_paragraph = []  #  To store each paragraph of the NEWS
+        
     def start_requests(self):
         urls = ["https://punchng.com/"]
         for url in urls:
@@ -58,7 +63,7 @@ class PunchScraper(Spider):
         content = response.css("div.entry-content") # All the content of the punch
         page_sum = content.xpath(".//*[@style='text-align: justify;']")  # All paragraphs with unknown format
         if page_sum == []:
-          page_sum = content.xpath(".//p")  # All paragraphs
+            page_sum = content.xpath(".//p")  # All paragraphs
         
         # Some paragraph contains link which will make the news pretty bad
         # So I have to take the text for the link only
@@ -69,18 +74,12 @@ class PunchScraper(Spider):
         
         news = "\n".join(self.all_paragraph)  # Separating paragraphs with newline character
         self.all_paragraph = [] # Set free
-        with open(f'Top 15 news.txt', 'a+') as doc:  #  Saving each news here
-            title_format = f'{title}\n' if PunchScraper.first_news == 0 else "\n"+title+'\n'
-            news_url = f"NEWS URL: {response.url}\n" if PunchScraper.first_news == 0 else f"\nNEWS URL: {response.url}"
-            doc.writelines(news_url)
-            doc.writelines(title_format)
-            doc.writelines(news)
-            doc.writelines('\n')
-            PunchScraper.first_news = 1
-            
-                    
+        PunchScraper.writer.writerow([title, response.url, news])
+        
+                     
 if __name__ == '__main__':
     create_remove_f_news()
     process = CrawlerProcess()
     process.crawl(PunchScraper)
     process.start()
+    PunchScraper.file.close()
