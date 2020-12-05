@@ -2,7 +2,7 @@ import scrapy
 
 
 class ScrapingEngineSpider(scrapy.Spider):
-    name = 'scraping_engine'
+    name = 'punchscraping'
     allowed_domains = ['punchng.com']
     start_urls = ['https://punchng.com/']
 
