@@ -10,12 +10,8 @@ End product:
 This project has two branches:
 1. <a href='https://github.com/comsavvy/Punch-scraping-engine/tree/main'>main</a>: For storing the NEWS into a text file.
 2. <a href='https://github.com/comsavvy/Punch-scraping-engine/tree/CSV'>CSV</a>: For storing the NEWS into a csv file.
+3. <a href='https://github.com/comsavvy/Punch-scraping-engine/tree/deployment'>deployment</a>:This can be deployed in SCRAPYHUB platform
 
-# Requirement
-*<a href='https://github.com/comsavvy/Punch-scraping-engine/blob/main/scraping_engine.py'>scrapy_engine.py</a>* module will handle the installation of the necessary libraries,
-are you scared if the libraries is too much? <br />
-Don't be!
-Because we are only installing one library called **<a href='https://docs.scrapy.org/en/latest/'>SCRAPY</a>** <br />
-But to install it manually,<br />
-copy and paste this **pip install scrapy** to your console. <br />
-You can visit the **<a href='https://docs.scrapy.org/en/latest/'>SCRAPY</a>** documentation if you are curious about how it works.
+*This will be deployed in SCRAPYHUB*
+
+Advanced **<a href='https://docs.scrapy.org/en/latest/'>SCRAPY</a>**
