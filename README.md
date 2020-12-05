@@ -10,7 +10,7 @@ End product:
 This project has two branches:
 1. <a href='https://github.com/comsavvy/Punch-scraping-engine/tree/main'>main</a>: For storing the NEWS into a text file.
 2. <a href='https://github.com/comsavvy/Punch-scraping-engine/tree/CSV'>CSV</a>: For storing the NEWS into a csv file.
-
+3. <a href='https://github.com/comsavvy/Punch-scraping-engine/tree/deployment'>deployment</a>:This can be deployed in SCRAPYHUB platform
 # Requirement
 *<a href='https://github.com/comsavvy/Punch-scraping-engine/blob/main/scraping_engine.py'>scrapy_engine.py</a>* module will handle the installation of the necessary libraries,
 are you scared if the libraries is too much? <br />
