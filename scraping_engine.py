@@ -31,10 +31,7 @@ def create_remove_f_news():
 
 class PunchScraper(Spider):
     name = "Punch_scraper"
-    first_news = 0 # This will let me keep track of the first NEWS, so as to maintain the newline character.
-    
-    def __init__(self):
-      self.all_paragraph = []  #  To store each paragraph of the NEWS
+    first_news = 0 # This will let me keep track of the first NEWS, so as to maintain the newline character.    
 
     def start_requests(self):
         urls = ["https://punchng.com/"]
@@ -63,19 +60,19 @@ class PunchScraper(Spider):
         # Some paragraph contains link which will make the news pretty bad
         # So I have to take the text for the link only
         # And then, join them with the paragraph back
+        
+        all_paragraph = []  #  To store each paragraph of the NEWS
         for pg in page_sum:
             parag = " ".join(pg.xpath('.//text()').extract())
-            self.all_paragraph.append(parag)
+            all_paragraph.append(parag)
         
-        news = "\n".join(self.all_paragraph)  # Separating paragraphs with newline character
-        self.all_paragraph = [] # Set free
+        news = "\n".join(all_paragraph)  # Separating paragraphs with newline character
         with open(f'Top 15 news.txt', 'a+') as doc:  #  Saving each news here
             title_format = f'{title}\n' if PunchScraper.first_news == 0 else "\n"+title+'\n'
             news_url = f"NEWS URL: {response.url}\n" if PunchScraper.first_news == 0 else f"\nNEWS URL: {response.url}"
             doc.writelines(news_url)
             doc.writelines(title_format)
-            doc.writelines(news)
-            doc.writelines('\n')
+            doc.writelines(news+"\n")
             PunchScraper.first_news = 1
             
                     
