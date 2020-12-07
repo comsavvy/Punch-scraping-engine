@@ -7,7 +7,7 @@ End product:
 - News content
 
 *All in one file!*
-This project has two branches:
+This project has three branches:
 1. <a href='https://github.com/comsavvy/Punch-scraping-engine/tree/main'>main</a>: For storing the NEWS into a text file.
 2. <a href='https://github.com/comsavvy/Punch-scraping-engine/tree/CSV'>CSV</a>: For storing the NEWS into a csv file.
 3. <a href='https://github.com/comsavvy/Punch-scraping-engine/tree/deployment'>deployment</a>:This can be deployed in SCRAPYHUB platform
