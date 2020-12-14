@@ -1,4 +1,3 @@
-import subprocess as sub
 import sys, time
 
 try:
@@ -54,7 +53,7 @@ class PunchScraper(Spider):
         title = response.css("h1.post_title::text").extract_first() # Title of the  page
         content = response.css("div.entry-content") # All the content of the punch
         page_sum = content.xpath(".//*[@style='text-align: justify;']")  # All paragraphs with unknown format
-        if page_sum == []:
+        if not page_sum:
           page_sum = content.xpath(".//p")  # All paragraphs
         
         # Some paragraph contains link which will make the news pretty bad
