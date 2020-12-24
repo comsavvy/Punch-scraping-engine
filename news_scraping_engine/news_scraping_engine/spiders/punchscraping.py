@@ -5,12 +5,8 @@ class ScrapingEngineSpider(scrapy.Spider):
     name = 'punchscraping'
     allowed_domains = ['punchng.com']
     start_urls = ['https://punchng.com/']
-
     first_news = 0 # This will let me keep track of the first NEWS, so as to maintain the newline character.
-    
-    def __init__(self):
-      self.all_paragraph = []  #  To store each paragraph of the NEWS
-      
+
     def parse(self, response):
         """
             This method contains all the link in the Punch website.
@@ -27,17 +23,19 @@ class ScrapingEngineSpider(scrapy.Spider):
         title = response.css("h1.post_title::text").extract_first() # Title of the  page
         content = response.css("div.entry-content") # All the content of the punch
         page_sum = content.xpath(".//*[@style='text-align: justify;']")  # All paragraphs with unknown format
-        if page_sum == []:
+        if not page_sum:
           page_sum = content.xpath(".//p")  # All paragraphs
         
         # Some paragraph contains link which will make the news pretty bad
         # So I have to take the text for the link only
         # And then, join them with the paragraph back
+        
+        all_paragraph = []  #  To store each paragraph of the NEWS
         for pg in page_sum:
             parag = " ".join(pg.xpath('.//text()').extract())
-            self.all_paragraph.append(parag)
-        news = "\n".join(self.all_paragraph)  # Separating paragraphs with newline character
-        self.all_paragraph = [] # Set free
+            all_paragraph.append(parag)
+        
+        news = "\n".join(all_paragraph)  # Separating paragraphs with newline character
         yield {
                    'title': title,
                    'news': news,
