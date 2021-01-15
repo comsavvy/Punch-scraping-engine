@@ -1,5 +1,5 @@
 # News
-This code is for scraping the latest Punch News (<a href='http://punch.com/'>here</a>) by crawling through different NEWS url.
+This code is for scraping the latest Punch News (<a href='https://punchng.com/'>here</a>) by crawling through different NEWS url.
 <br />
 End product:
 - The URL of the News
